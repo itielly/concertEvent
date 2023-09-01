@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CONCERTEVENT</title>
+
+  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div id="section1" class="section">
+    <div class="header">
+          <button class="action buttonAction buttonActionTwo">
+            EVENTOS
+          </button>
+          <button class="action buttonAction buttonActionTree">
+            CRIAR EVENTO
+          </button>
+    </div>
+    <div class="description">
+      <h1 class="title">CONCERTEVENT</h1>
+      <p class="text">
+        Seja você um apreciador ávido da música clássica ou alguém que está apenas começando a explorar os encantos desse gênero atemporal, temos o prazer de recebê-lo em nosso site sem fins lucrativos dedicado à divulgação de eventos de música clássica. 
+      </p>
+      <p class="text">
+        Aqui divulgamos e abrimos espaço para você também divulgar eventos de música clássica para uma melhor disseminação da cultura arcaica. Embarcaremos juntos em uma jornada emocionante através das melodias sublimes, das composições magistrais e das performances que tocam a alma.
+      </p>
+    </div>
+  </div>
+  <div id="section2" class="section">
+    <div class="section2Content listCard"> </div>
+    <button class="action buttonAction buttonActionOne">
+      <i class="fa fa-arrow-up"></i>
+    </button>
+  </div>
+  <div id="section3" class="section">
+    <div class="content">
+        <h2 class="titleRegister">Deseja cadastrar um novo evento?</h2>
+        <form id="form">
+          <input type="text" class="form" placeholder="Nome do evento" name="name"/>
+
+          <input type="text" class="form" placeholder="Dia do evento" onfocus="(this.type='date')" name="dayEvent"/>
+
+          <div>
+            <input type="text" class="form" placeholder="Horário de início" onfocus="(this.type='time')" name="initHour"/>
+
+            <input type="text" class="form" placeholder="Horário de término" onfocus="(this.type='time')" name="finishHour"/>
+          </div>
+
+          <textarea rows="4" class="form" placeholder="Descrição" name="description"></textarea>
+
+          <button type="button" type="submit" class="create">CRIAR</button>
+        </form>
+    </div>
+    <button class="action buttonAction buttonActionOne">
+      <i class="fa fa-arrow-up"></i>
+    </button>
+  </div>
+
+  <div class="modal" id="modal1">
+    <div class="modal-dialog">
+      <header class="modal-header">
+        <h3 style="color: #000; font-weight: 300;">Encontrou alguma informação equivocada?</h3>
+        <button class="close-modal" aria-label="close modal" data-close style="background-color: #fff; border: none; color: #000; font-size: 20px;">✕</button>
+      </header>
+      <section class="modal-content">
+        <div style="display: flex; flex-direction: column;">
+          <input type="text" class="formEdit nameEdit"value=""/>
+
+          <input type="text" class="formEdit dayEventEdit" placeholder="Dia do evento" onfocus="(this.type='date')"/>
+
+          <div style="width: 100%; display: flex; justify-content: space-between;">
+            <input type="text" class="formEdit initHourEdit" placeholder="Horário de início" onfocus="(this.type='time')" style="width: 45%;"/>
+
+            <input type="text" class="formEdit finishHourEdit" placeholder="Horário de término" onfocus="(this.type='time')"style="width: 45%;"/>
+          </div>
+
+          <textarea rows="4" class="formEdit descriptionEdit" placeholder="Descrição"></textarea>
+        </div>
+      </section>
+      <footer class="modal-footer">
+        <button class="editEvent" style="background-color: #fff; color:#000; border: 1px solid black; padding: 8px; border-radius: 3px;">Salvar</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="./js/script.js">
+  </script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</body>
+</html>
