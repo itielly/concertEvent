@@ -150,7 +150,7 @@ form > button {
   width: 30%;
   margin: 10px 5px;
   max-width: 400px;
-  min-width: 300px;
+  min-width: 320px;
   position: relative;
 }
 
@@ -206,6 +206,9 @@ form > div > input {
 
 .buttonDropDown {
   align-self: flex-end;  
+  margin-right: 10px;
+  font-size: 17px;
+  color: #000;
   border: none; 
   background-color: #fff; 
   cursor: pointer;

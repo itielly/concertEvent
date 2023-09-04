@@ -11,10 +11,10 @@
 <body>
   <div id="section1" class="section">
     <div class="header">
-          <button class="action buttonAction buttonActionTwo">
+          <button class="action buttonAction scrollButton" value="2">
             EVENTOS
           </button>
-          <button class="action buttonAction buttonActionTree">
+          <button class="action buttonAction scrollButton" value="3">
             CRIAR EVENTO
           </button>
     </div>
@@ -30,7 +30,7 @@
   </div>
   <div id="section2" class="section">
     <div class="section2Content listCard"> </div>
-    <button class="action buttonAction buttonActionOne">
+    <button class="action buttonAction scrollButton" style="position: absolute; right: 0; align-self: flex-end; z-index: 10px;" value="1">
       <i class="fa fa-arrow-up"></i>
     </button>
   </div>
@@ -53,7 +53,7 @@
           <button type="button" type="submit" class="create">CRIAR</button>
         </form>
     </div>
-    <button class="action buttonAction buttonActionOne">
+    <button class="action buttonAction scrollButton" value="1">
       <i class="fa fa-arrow-up"></i>
     </button>
   </div>
@@ -66,7 +66,7 @@
       </header>
       <section class="modal-content">
         <div style="display: flex; flex-direction: column;">
-          <input type="text" class="formEdit nameEdit"value=""/>
+          <input type="text" class="formEdit nameEdit"/>
 
           <input type="text" class="formEdit dayEventEdit" placeholder="Dia do evento" onfocus="(this.type='date')"/>
 

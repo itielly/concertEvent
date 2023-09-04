@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const endpoint = 'http://localhost:8000';
 
   const mouth = [
     'Janeiro', 
@@ -15,17 +16,14 @@ document.addEventListener("DOMContentLoaded", function () {
     'Dezembro'
   ]
 
-  let heightScreen = $(window).height()
+  let heightScreen = $(window).height();
   $('.section').height(heightScreen);
 
   listEvent();
 
-  $('.buttonActionTwo').click(() => scroll(2));
-  $('.buttonActionTree').click(() => scroll(3));
-  $('.buttonActionOne').click(() => scroll(1));
-  $('.create').click(() => register());
+  $('.scrollButton').click((event) => {
+    const section = JSON.parse(event.target.getAttribute('value'));
 
-  function scroll(section){
     if(section === 2){
       $('html, body').animate({scrollTop: heightScreen}, '500');
       return;
@@ -34,59 +32,59 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
     $('html, body').animate({scrollTop: 0}, '800');
-  }
+  });
+
+  $('.create').click(() => {
+      let name = document.querySelector(`input[name='name']`).value;
+      let dayEvent = document.querySelector(`input[name='dayEvent']`).value;
+      let initHour = document.querySelector(`input[name='initHour']`).value;
+      let finishHour = document.querySelector(`input[name='finishHour']`).value;
+      let description = document.querySelector(`textarea[name='description']`).value;
+  
+      if(!validate(initHour, finishHour)){
+        return;
+      }
+  
+      if(name === '' || dayEvent === '' || initHour === '' || finishHour === '' || description === '')
+      {
+        window.alert('Todos os campos são obrigatórios');
+        return;
+      }
+  
+      const data = {
+        name,
+        dayEvent,
+        initHour,
+        finishHour,
+        description
+      };
+  
+      fetch(`${endpoint}/event`, { 
+        method: 'POST', body: JSON.stringify(data) 
+      }).then(response => response.json())
+      .then(result => {
+        if(!result.status){
+          window.alert('Ocorreu um erro ao cadastrar seu evento, tente novamente :(');
+          return;
+        }
+  
+        mountListCard(result.data);
+        window.alert('Evento cadastrado com sucesso! :)');
+        $('html, body').animate({scrollTop: heightScreen}, '500');
+      })
+      .catch(() => {
+        window.alert('Ocorreu um erro ao cadastrar seu evento, tente novamente :(')
+      })
+  });
 
   function listEvent(){
-    fetch('http://localhost:8000/event', { method: 'GET' })
+    fetch(`${endpoint}/event`, { method: 'GET' })
     .then(response => response.json())
     .then(result => {
       mountListCard(result.data);
     })
     .catch(() => {
       window.alert('Ocorreu um erro ao listar os eventos, tente novamente :(')
-    })
-  }
-
-  async function register(){
-    let name = document.querySelector(`input[name='name']`).value;
-    let dayEvent = document.querySelector(`input[name='dayEvent']`).value;
-    let initHour = document.querySelector(`input[name='initHour']`).value;
-    let finishHour = document.querySelector(`input[name='finishHour']`).value;
-    let description = document.querySelector(`textarea[name='description']`).value;
-
-    if(!validate(initHour, finishHour)){
-      return;
-    }
-
-    if(name === '' || dayEvent === '' || initHour === '' || finishHour === '' || description === '')
-    {
-      window.alert('Todos os campos são obrigatórios');
-      return;
-    }
-
-    const data = {
-			name,
-			dayEvent,
-			initHour,
-			finishHour,
-			description
-		};
-
-    fetch('http://localhost:8000/event', { 
-      method: 'POST', body: JSON.stringify(data) 
-    }).then(response => response.json())
-    .then(result => {
-      if(!result.status){
-        window.alert('Ocorreu um erro ao cadastrar seu evento, tente novamente :(');
-        return;
-      }
-
-      mountListCard(result.data);
-      window.alert('Evento cadastrado com sucesso! :)');
-      $('html, body').animate({scrollTop: heightScreen}, '500');
-    })
-    .catch(() => {
-      window.alert('Ocorreu um erro ao cadastrar seu evento, tente novamente :(')
     })
   }
 
@@ -110,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
         <div class="contentDropDown">
           <button class="showDropDown buttonDropDown">
-            <i class="fa fa-arrow-up" style="color: #000;" id=${item.id} values='${JSON.stringify(item)}'></i>
+            <i class="fa fa-caret-down" id=${item.id} values='${JSON.stringify(item)}'></i>
           </button>
           <div id="dropdown-${item.id}" class="dropDown">
             <div>
@@ -169,12 +167,12 @@ document.addEventListener("DOMContentLoaded", function () {
       $('.removeEvent').click(() => remove());      
 
       function editEvent(){
-        let name = document.querySelector(`.nameEdit`).value;
-        let dayEvent = document.querySelector(`.dayEventEdit`).value;
-        let initHour = document.querySelector(`.initHourEdit`).value;
-        let finishHour = document.querySelector(`.finishHourEdit`).value;
-        let description = document.querySelector(`.descriptionEdit`).value;
-    
+        let name = document.querySelector('.nameEdit').value;
+        let dayEvent = document.querySelector('.dayEventEdit').value;
+        let initHour = document.querySelector('.initHourEdit').value;
+        let finishHour = document.querySelector('.finishHourEdit').value;
+        let description = document.querySelector('.descriptionEdit').value;
+
         if(!validate(initHour, finishHour)){
           return;
         }
@@ -183,6 +181,10 @@ document.addEventListener("DOMContentLoaded", function () {
         {
           window.alert('Todos os campos são obrigatórios');
           return;
+        }
+
+        if(!dayEvent.startsWith('20')){
+          dayEvent = formatDate(dayEvent);
         }
     
         const response = {
@@ -194,22 +196,18 @@ document.addEventListener("DOMContentLoaded", function () {
           description
         };
     
-        fetch('http://localhost:8000/event', { 
+        fetch(`${endpoint}/event`, { 
           method: 'PUT', body: JSON.stringify(response) 
         }).then(response => response.json())
         .then(result => {
           if(!result.status){
             window.alert('Ocorreu um erro ao editar seu evento, tente novamente :(');
             return;
-          } 
+          }
     
-          el.addEventListener("click", function() {
-            this.parentElement.parentElement.parentElement.classList.remove(isVisible);
-          });
-
           mountListCard(result.data);
           window.alert('Evento editado com sucesso! :)');
-          $('html, body').animate({scrollTop: heightScreen}, '500');
+          document.querySelector(".modal.is-visible").classList.remove(isVisible);
         })
         .catch(() => {
           window.alert('Ocorreu um erro ao editar seu evento, tente novamente :(')
@@ -220,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const response = {
           id: data.id
         }
-        fetch('http://localhost:8000/event', { 
+        fetch(`${endpoint}/event`, { 
           method: 'DELETE', body: JSON.stringify(response) 
         }).then(response => response.json())
         .then(result => {
